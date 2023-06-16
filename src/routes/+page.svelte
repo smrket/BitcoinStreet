@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
 
 
 
@@ -16,12 +18,35 @@
 
 	import Welcome from './components/Welcome.svelte';
 
+	// Function to fetch BTC price
+	let btcPrice;
+	// Function to fetch BTC price
+	async function fetchBTCPrice() {
+  	try {
+    	const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
+    	const data = await response.json();
+    	btcPrice = data.bpi.USD.rate_float.toFixed(0);
+		
+
+    // Use the BTC price here
+    	// console.log('Current BTC Price: $' + btcPrice);
+  	} catch (error) {
+    	console.error('Error fetching BTC price:', error);
+  	}
+	}
+
+	// Call the function every 5 seconds
+	fetchBTCPrice();
+	setInterval(fetchBTCPrice, 5000);
+
+
+
 	
 	
 </script>
 
 <svelte:head>
-	<title>Bitcoin Street</title>
+	<title>Bitcoin Street ${btcPrice}</title>
 	<meta name="description" content="BTC LIVE PRICE $ | Crypto, Bitcoin News | Crypto Converter | Top Free Faucet | Trusted Earnings Website | Mining - Trading - Investing | Convert Btc Satoshi To USD" />
 </svelte:head>
 
